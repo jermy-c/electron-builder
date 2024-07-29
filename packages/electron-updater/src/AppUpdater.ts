@@ -114,6 +114,12 @@ export abstract class AppUpdater extends (EventEmitter as new () => TypedEmitter
   forceDevUpdateConfig = false
 
   /**
+   * Allows developer to force the update channel to the one named in the config file
+   * @default false
+   */
+  forceCustomChannel = false
+
+  /**
    * The current application version.
    */
   readonly currentVersion: SemVer

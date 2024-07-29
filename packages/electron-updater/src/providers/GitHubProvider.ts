@@ -136,7 +136,14 @@ export class GitHubProvider extends BaseGitHubProvider<GithubUpdateInfo> {
     }
 
     try {
-      const channel = this.updater.allowPrerelease ? this.getCustomChannelName(String(semver.prerelease(tag)?.[0] || "latest")) : this.getDefaultChannelName()
+      let channel: string
+      if (this.updater.forceCustomChannel) {
+        channel = this.options.channel || this.getDefaultChannelName()
+      } else if (this.updater.allowPrerelease) {
+        channel = this.getCustomChannelName(String(semver.prerelease(tag)?.[0] || "latest"))
+      } else {
+        channel = this.getDefaultChannelName()
+      }
       rawData = await fetchData(channel)
     } catch (e: any) {
       if (this.updater.allowPrerelease) {
